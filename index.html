@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Watch - مراقب الفضاء الكوني</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-satellite"></i>
+                <h1>Cosmic Watch</h1>
+                <span>مراقب الفضاء الكوني</span>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </button>
+                <button class="nav-btn" data-section="iss">
+                    <i class="fas fa-satellite-dish"></i>
+                    محطة الفضاء
+                </button>
+                <button class="nav-btn" data-section="apod">
+                    <i class="fas fa-image"></i>
+                    صورة اليوم
+                </button>
+                <button class="nav-btn" data-section="asteroids">
+                    <i class="fas fa-meteor"></i>
+                    الكويكبات
+                </button>
+                <button class="nav-btn" data-section="weather">
+                    <i class="fas fa-cloud-sun"></i>
+                    الطقس
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <h2>مرحباً بك في Cosmic Watch</h2>
+                <p class="subtitle">استكشف الكون من خلال بيانات ناسا المباشرة</p>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-satellite-dish"></i>
+                        </div>
+                        <h3>محطة الفضاء الدولية</h3>
+                        <p>تتبع موقع محطة الفضاء الدولية في الوقت الفعلي</p>
+                        <button class="btn" onclick="showSection('iss')">عرض الخريطة</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <h3>صورة اليوم الفلكية</h3>
+                        <p>اكتشف صورة اليوم المذهلة من ناسا</p>
+                        <button class="btn" onclick="showSection('apod')">عرض الصورة</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-meteor"></i>
+                        </div>
+                        <h3>الأجسام القريبة</h3>
+                        <p>راقب الكويكبات والأجسام القريبة من الأرض</p>
+                        <button class="btn" onclick="showSection('asteroids')">عرض القائمة</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-cloud-sun"></i>
+                        </div>
+                        <h3>طقس الفضاء</h3>
+                        <p>اطلع على الطقس الأرضي وطقس الفضاء</p>
+                        <button class="btn" onclick="showSection('weather')">عرض الطقس</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ISS Tracker Section -->
+        <section id="iss" class="section">
+            <div class="container">
+                <h2>تتبع محطة الفضاء الدولية</h2>
+                <div class="iss-info">
+                    <div class="iss-stats">
+                        <div class="stat">
+                            <span class="stat-label">السرعة:</span>
+                            <span id="iss-speed" class="stat-value">--</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">الارتفاع:</span>
+                            <span id="iss-altitude" class="stat-value">--</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">الموقع:</span>
+                            <span id="iss-location" class="stat-value">--</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="map" class="map-container"></div>
+            </div>
+        </section>
+
+        <!-- APOD Section -->
+        <section id="apod" class="section">
+            <div class="container">
+                <h2>صورة اليوم الفلكية</h2>
+                <div class="apod-container">
+                    <div class="loading" id="apod-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>جاري تحميل صورة اليوم...</p>
+                    </div>
+                    <div class="apod-content" id="apod-content" style="display: none;">
+                        <div class="apod-image">
+                            <img id="apod-img" src="" alt="Astronomy Picture of the Day">
+                        </div>
+                        <div class="apod-info">
+                            <h3 id="apod-title"></h3>
+                            <p id="apod-explanation"></p>
+                            <div class="apod-meta">
+                                <span id="apod-date"></span>
+                                <span id="apod-copyright"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Asteroids Section -->
+        <section id="asteroids" class="section">
+            <div class="container">
+                <h2>الأجسام القريبة من الأرض</h2>
+                <div class="asteroids-controls">
+                    <button class="btn" onclick="loadAsteroids()">
+                        <i class="fas fa-sync"></i>
+                        تحديث البيانات
+                    </button>
+                </div>
+                <div class="loading" id="asteroids-loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>جاري تحميل بيانات الكويكبات...</p>
+                </div>
+                <div class="asteroids-list" id="asteroids-list"></div>
+            </div>
+        </section>
+
+        <!-- Weather Section -->
+        <section id="weather" class="section">
+            <div class="container">
+                <h2>طقس الأرض والفضاء</h2>
+                <div class="weather-grid">
+                    <div class="weather-card">
+                        <h3>طقس الأرض</h3>
+                        <div class="weather-input">
+                            <input type="text" id="city-input" placeholder="أدخل اسم المدينة">
+                            <button class="btn" onclick="getWeather()">عرض الطقس</button>
+                        </div>
+                        <div class="weather-info" id="earth-weather"></div>
+                    </div>
+                    
+                    <div class="weather-card">
+                        <h3>طقس الفضاء</h3>
+                        <div class="space-weather-info" id="space-weather">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>جاري تحميل بيانات طقس الفضاء...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Cosmic Watch - NASA Space Apps Challenge</p>
+            <p>تم تطويره باستخدام بيانات ناسا المفتوحة</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="demo-data.js"></script>
+    <script src="script.js"></script>
+    <script src="animations.js"></script>
+</body>
+</html>

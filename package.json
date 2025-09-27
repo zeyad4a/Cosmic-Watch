@@ -1,0 +1,40 @@
+{
+  "name": "cosmic-watch",
+  "version": "1.0.0",
+  "description": "Cosmic Watch - مراقب الفضاء الكوني - منصة تفاعلية لبيانات الفضاء من ناسا",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8000 -c-1",
+    "dev": "http-server -p 8000 -c-1 -o",
+    "build": "echo 'No build process needed for static files'",
+    "serve": "python -m http.server 8000"
+  },
+  "keywords": [
+    "nasa",
+    "space",
+    "astronomy",
+    "iss",
+    "asteroids",
+    "apod",
+    "space-weather",
+    "hackathon",
+    "arabic",
+    "cosmic-watch"
+  ],
+  "author": "NASA Space Apps Challenge Cairo Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/cosmic-watch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/cosmic-watch/issues"
+  },
+  "homepage": "https://github.com/your-username/cosmic-watch#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
